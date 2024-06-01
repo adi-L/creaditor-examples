@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Creaditor | 👩‍💻</title>
+    <script
+      defer="defer"
+      src="https://api.creaditor.ai/static/start/creaditor.bundle.js"
+    ></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script>
+      window.addEventListener("load", () => {
+        const config = {
+          width: "750px",
+          onSave: (data) => {
+            const json = data.toJson();
+            // save the json to the server
+          },
+          theme: {
+            primaryColor: "#000",
+            topNavbar:
+              "linear-gradient(to right top, #051937, #00293b, #113537, #303f38, #474944);",
+          },
+          components: [], // components load here
+        };
+        new cdtrStarter(config);
+      });
+    </script>
+  </body>
+</html>

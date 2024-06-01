@@ -1,0 +1,21 @@
+<script
+  defer="defer"
+  src="https://api.creaditor.ai/static/start/creaditor.bundle.js"
+></script>
+<div id="root"></div>
+<script>
+  window.addEventListener("load", () => {
+    const config = {
+      mergeTags: [
+        { value: "name", label: "שם פרטי" },
+        { value: "email", label: "מייל" },
+        { value: "tel", label: "טלפון" },
+        { value: "address", label: "כתובת" },
+      ],
+      prefix: "[[*",
+      suffix: "*]]",
+      title: "פנייה אישית",
+    };
+    new cdtrStarter(config);
+  });
+</script>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Creaditor | 👩‍💻</title>
+    <script
+      defer="defer"
+      src="https://api.creaditor.ai/static/start/creaditor.bundle.js"
+    ></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script>
+      function getJSONModal() {
+        const button = document.createElement("paper-button");
+        button.innerHTML = "לחיצה לקבלת JSON";
+        button.style.color = "white";
+        button.addEventListener("click", () => {
+          const json = window.cdtr.commands.toJSON();
+          const wrapper = document.createElement("div");
+          const closeElement = document.createElement("button");
+          closeElement.onclick = () => {
+            wrapper.remove();
+          };
+          closeElement.innerHTML = "סגור";
+          const textArea = document.createElement("textarea");
+          textArea.style.width = "100%";
+          textArea.style.height = "100%";
+          wrapper.append(closeElement, textArea);
+          textArea.value = JSON.stringify(json, null, 2);
+          document.body.appendChild(wrapper);
+          textArea.select();
+          document.execCommand("copy");
+          // center it
+          wrapper.style.position = "fixed";
+          wrapper.style.top = "50%";
+          wrapper.style.border = "1px solid black";
+          wrapper.style.left = "50%";
+          wrapper.style.transform = "translate(-50%, -50%)";
+          wrapper.style.zIndex = "1000";
+          wrapper.style.width = "500px";
+          wrapper.style.height = "500px";
+          wrapper.style.background = "white";
+        });
+        return button;
+      }
+
+      window.addEventListener("load", () => {
+        const config = {
+          width: "500px",
+          onSave: (data) => {
+            const data2 = data.toJson();
+            // save the json to the server
+          },
+          theme: {
+            primaryColor: "#000",
+            topNavbar:
+              "linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(186,32,136,1) 35%, rgba(0,212,255,1) 100%)",
+          },
+          components: [],
+          navbar: {
+            components: [getJSONModal],
+          },
+        };
+        window.cdtr = new cdtrStarter(config);
+      });
+    </script>
+  </body>
+</html>

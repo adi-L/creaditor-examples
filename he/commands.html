@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Creaditor | 👩‍💻</title>
+    <script
+      defer="defer"
+      src="https://api.creaditor.ai/static/start/creaditor.bundle.js"
+    ></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script>
+      window.addEventListener("load", async () => {
+        const config = {};
+        const instance = new cdtrStarter(config);
+        alert("Take a look at the console for the output")
+        //===commands===//
+        const commnands = instance.commands;
+        const html = await commnands.toHTML();
+        const json = commnands.toJSON();
+        const snackbar = commnands.snackbar("ברוכים הבאים");
+        const langs = commnands.langs();
+        
+        console.log("html", html);
+        // divider for console
+        console.log("-------------------------------------------------");
+        console.log("json", json);
+        console.log("-------------------------------------------------");
+        console.log(langs);
+      });
+    </script>
+  </body>
+</html>
