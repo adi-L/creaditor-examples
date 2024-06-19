@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Creaditor | 👩‍💻</title>
+    <script
+      defer="defer"
+      src="https://api.creaditor.ai/static/start/creaditor.bundle.js"
+    ></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script>
+
+const mediaGalleryManager = ({ endpoint, access }) => {
+    let nextUrl;
+    const accessFromServer = access;
+    return function (manager) {
+     
+          manager.on("on-like", ({ fileId, resolve }) => {
+            httpReqest(`${endpoint}/media/like/${fileId}`, "PATCH")
+              .then((d) => d.json())
+              .then((response) => {
+                resolve(response);
+              });
+          });
+          manager.on("on-move-file", ({ data, resolve }) => {
+            const folderId = data.folderId;
+            const fileId = data.fileId;
+            httpReqest(
+              `${endpoint}/media/${fileId}`,
+              "PATCH",
+              JSON.stringify({
+                dir: folderId,
+              }),
+              { "Content-Type": "application/json" }
+            )
+              .then((d) => d.json())
+              .then((response) => {
+                resolve(response);
+              });
+          });
+          manager.on("upload-file", (e) => {
+            //upload file to server
+            console.log("upload from core");
+            const file = e.file;
+            const dirId = e.dirId;
+            const formData = new FormData();
+            formData.append("file", file);
+            if (dirId) {
+              formData.append("dirId", dirId);
+            }
+            httpReqest(`${endpoint}/media/upload`, "POST", formData)
+              .then((response) => response.json())
+              .then((response) => {
+                const { src } = response;
+                window.creaditor.commands.execCommand("src", src);
+                manager.close();
+              });
+            console.log(e);
+          });
+          manager.on("delete-file", ({ id, resolve }) => {
+            httpReqest(`${endpoint}/media/${id}`, "DELETE").then(() => {
+              resolve();
+            });
+          });
+          manager.on("create-folder", ({ name, resolve }) => {
+            httpReqest(`${endpoint}/folders`, "POST", JSON.stringify({ name }), {
+              "Content-Type": "application/json",
+            })
+              .then((t) => t.json())
+              .then((response) => {
+                resolve(response);
+              });
+          });
+          manager.on("delete-folder", ({ id, resolve }) => {
+            httpReqest(`${endpoint}/folders/${id}`, "DELETE").then(() => {
+              resolve();
+            });
+          });
+          manager.on("load-folders", ({ resolve }) => {
+            httpReqest(`${endpoint}/folders`, "GET")
+              .then((response) => response.json())
+              .then((response) => {
+                const { results } = response;
+                nextUrl = response.nextUrl;
+                resolve(results);
+              });
+          });
+          manager.on("rename-folder", (e) => {
+            console.log(e);
+          });
+          manager.on("rename-file", (e) => {
+            console.log(e);
+          });
+          manager.on("move-file", (e) => {
+            alert();
+            console.log(e);
+          });
+          manager.on(
+            "load-files",
+            ({ resolve, dirId, sortBy, isLiked, search }) => {
+              debugger;
+              search = search ? `&name=${search}` : "";
+              dirId = dirId ? "&dir=" + dirId : "";
+              sortBy = sortBy ? "&sortBy=" + sortBy : "";
+              isLiked = isLiked ? "&isLiked=1" : "";
+              httpReqest(
+                `${endpoint}/media?limit=30${dirId}${sortBy}${isLiked}${search}`,
+                "GET"
+              )
+                .then((response) => response.json())
+                .then((response) => {
+                  const { results } = response;
+                  nextUrl = response.nextUrl;
+                  resolve(results);
+                });
+            }
+          );
+          manager.on("lazy-load-files-on-scroll", ({ resolve }) => {
+            if (nextUrl) {
+              httpReqest(`${endpoint}/${nextUrl}`, "GET")
+                .then((response) => response.json())
+                .then((response) => {
+                  const { results } = response;
+                  nextUrl = response.nextUrl;
+                  resolve(results);
+                });
+            }
+          });
+          manager.render();
+        });
+    };
+  };
+
+
+      window.addEventListener("load", () => {
+        const start = () => {
+          const config = {
+            width: "750px",
+            onSave: (data) => {
+              const json = data.toJson();
+              // save the json to the server
+            },
+            target: document.getElementById("root"),
+            theme: {
+              primaryColor: "#000",
+              topNavbar:
+                "linear-gradient(to right top, #051937, #00293b, #113537, #303f38, #474944);",
+            },
+            // load here the media gallery manager
+            mediaGalleryManager: mediaGalleryManager({
+              // the endpoint and access token are required
+              endpoint: "http://localhost:3000/v1",
+              // your endpoint
+              access:
+                "fd43a700-fa71-48d9-86b8-400bb9d0aeb2-347ae28f-287c-4693-a120-fb2be4f040df",
+            }),
+            components: [], // components load here
+          };
+
+          new cdtrStarter(config);
+        };
+
+        start()
+      });
+    </script>
+  </body>
+</html>
