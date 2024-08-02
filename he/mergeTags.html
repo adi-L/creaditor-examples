@@ -5,7 +5,7 @@
 <div id="root"></div>
 <script>
   window.addEventListener("load", () => {
-    const config = {
+    const textConfigure = {
       mergeTags: [
         { value: "name", label: "שם פרטי" },
         { value: "email", label: "מייל" },
@@ -16,6 +16,9 @@
       suffix: "*]]",
       title: "פנייה אישית",
     };
+    const config = { 
+        textConfigure
+     };
     new cdtrStarter(config);
   });
 </script>
