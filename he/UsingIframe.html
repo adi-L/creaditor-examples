@@ -1,0 +1,50 @@
+<!-- This is the main HTML container where our content will be inserted -->
+<div id="root"></div>
+
+<!-- Inline CSS styles for the body to remove default margins and padding -->
+<style>
+  body {
+    margin: 0; /* Removes default margin around the page */
+    padding: 0; /* Removes default padding around the page */
+  }
+</style>
+
+<script>
+  // Define the URL of the external script we want to load
+  const cdn =
+    "https://comstarsystemsltd.github.io/creaditor-monorepo/creaditor.bundle.js";
+
+  // Create a new <script> element to load the external script dynamically
+  const script = document.createElement("script");
+  script.src = cdn; // Set the source of the script to our CDN link
+
+  // Create an <iframe> element that will contain the Creaditor editor
+  const iframe = document.createElement("iframe");
+  iframe.style.width = "100%"; // Set the iframe to take the full width of its container
+  iframe.style.height = "100vh"; // Set the iframe to take the full height of the viewport
+  iframe.style.border = "none"; // Remove the border for a clean look
+
+  // Append the iframe as a child of the "root" div element, which is our main container
+  document.getElementById("root").appendChild(iframe);
+
+  // Append the script inside the iframe's document head to load the editor within the iframe
+  iframe.contentWindow.document.head.appendChild(script);
+
+  // Add an event listener to execute code once the script has fully loaded
+  script.addEventListener("load", () => {
+    // Define the configuration object for the Creaditor editor
+    const config = {
+      width: "750px", // Set a fixed width for the editor component
+
+      // Define the onSave callback function that handles data when saved in the editor
+      onSave: (data) => {
+        const json = data.toJson(); // Convert the saved data to JSON format
+        // Add functionality here to send the JSON data to a server for saving
+      },
+      components: [], // Initialize an empty array for custom components that could be loaded
+    };
+
+    // Initialize the editor within the iframe using the cdtrStarter function
+    new iframe.contentWindow.cdtrStarter(config);
+  });
+</script>
