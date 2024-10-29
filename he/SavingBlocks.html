@@ -1,41 +1,58 @@
+<!-- Load the Creaditor bundle JavaScript file from an external CDN with defer attribute -->
 <script
-  defer="defer"
+  defer="defer" <!-- Ensures the script is loaded after the HTML document has been parsed -->
   src="https://comstarsystemsltd.github.io/creaditor-monorepo/creaditor.bundle.js"
 ></script>
+
+<!-- This div will serve as the main container for our editor content -->
 <div id="root"></div>
+
 <script>
+  // Wait until the entire page, including external resources, has loaded before running the code
   window.addEventListener("load", () => {
+
+    // Define the categories of blocks that will be available in the editor
     const blocksCategories = [
       {
-        name: "My Blocks",
-        icon: "text", //coming soon
+        name: "My Blocks", // The name of this block category
+        icon: "text", // Placeholder for an icon; feature not yet available
       },
       {
-        name: "Primum Blocks",
-        icon: "button", //coming soon
+        name: "Primum Blocks", // Another category of blocks
+        icon: "button", // Placeholder for an icon; feature not yet available
       },
     ];
+
+    // Initialize an array to store custom blocks created by the user
     const customBlocks = [];
 
+    // Configuration object for initializing the editor
     const config = {
+      // Callback function triggered when a block is saved
       onSaveBlock: ({ block, category, name, image }) => {
-        console.log("block saved", block, category, name);
-        // important!!!!!!!!
-        //The image is in base64 format, so the developer should upload it to their server
+        console.log("block saved", block, category, name); // Log block information for debugging
+
+        // IMPORTANT: The image is in base64 format, so it needs to be uploaded to a server
         customBlocks.push({
-          name,
-          icon: image,
-          group: category.name,
-          children: block,
+          name,          // Name of the custom block
+          icon: image,   // Base64 image icon representing the block (should be uploaded to a server)
+          group: category.name, // Category the block belongs to
+          children: block,      // Actual block content
         });
       },
+
+      // Function that returns the categories of blocks defined above
       blocksCategories: () => {
         return blocksCategories;
       },
+
+      // Function that returns the array of custom blocks saved by the user
       customBlocks: () => {
         return customBlocks;
       },
     };
+
+    // Initialize the editor using the cdtrStarter function with the defined configuration
     new cdtrStarter(config);
   });
 </script>
