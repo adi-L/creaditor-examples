@@ -1,0 +1,40 @@
+<script
+  defer="defer"
+  src="https://comstarsystemsltd.github.io/creaditor-monorepo/creaditor.bundle.js"
+></script>
+<div id="root"></div>
+<script>
+  window.addEventListener("load", () => {
+    const blocksCategories = [
+      {
+        name: "My Blocks",
+        icon: "text", //coming soon
+      },
+      {
+        name: "Primum Blocks",
+        icon: "button", //coming soon
+      },
+    ];
+    const customBlocks = [];
+
+    const config = {
+      onSaveBlock: ({ block, category, name, image }) => {
+        console.log("block saved", block, category, name);
+
+        customBlocks.push({
+          name,
+          icon: image,
+          group: category.name,
+          children: block,
+        });
+      },
+      blocksCategories: () => {
+        return blocksCategories;
+      },
+      customBlocks: () => {
+        return customBlocks;
+      },
+    };
+    new cdtrStarter(config);
+  });
+</script>
