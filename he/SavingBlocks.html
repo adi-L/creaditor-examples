@@ -20,7 +20,8 @@
     const config = {
       onSaveBlock: ({ block, category, name, image }) => {
         console.log("block saved", block, category, name);
-
+        // important!!!!!!!!
+        //The image is in base64 format, so the developer should upload it to their server
         customBlocks.push({
           name,
           icon: image,
