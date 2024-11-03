@@ -12,12 +12,18 @@
   <body>
     <div id="root"></div>
     <script>
+      function httpReqest(url, method, body, headers) {
+        return fetch(url, {
+          method,
+          body,
+          headers,
+        });
+      }
 
-const mediaGalleryManager = ({ endpoint, access }) => {
-    let nextUrl;
-    const accessFromServer = access;
-    return function (manager) {
-     
+      const mediaGalleryManager = ({ endpoint, access }) => {
+        let nextUrl;
+        const accessFromServer = access;
+        return function (manager) {
           manager.on("on-like", ({ fileId, resolve }) => {
             httpReqest(`${endpoint}/media/like/${fileId}`, "PATCH")
               .then((d) => d.json())
@@ -66,9 +72,14 @@ const mediaGalleryManager = ({ endpoint, access }) => {
             });
           });
           manager.on("create-folder", ({ name, resolve }) => {
-            httpReqest(`${endpoint}/folders`, "POST", JSON.stringify({ name }), {
-              "Content-Type": "application/json",
-            })
+            httpReqest(
+              `${endpoint}/folders`,
+              "POST",
+              JSON.stringify({ name }),
+              {
+                "Content-Type": "application/json",
+              }
+            )
               .then((t) => t.json())
               .then((response) => {
                 resolve(response);
@@ -101,7 +112,6 @@ const mediaGalleryManager = ({ endpoint, access }) => {
           manager.on(
             "load-files",
             ({ resolve, dirId, sortBy, isLiked, search }) => {
-              debugger;
               search = search ? `&name=${search}` : "";
               dirId = dirId ? "&dir=" + dirId : "";
               sortBy = sortBy ? "&sortBy=" + sortBy : "";
@@ -116,6 +126,24 @@ const mediaGalleryManager = ({ endpoint, access }) => {
                   nextUrl = response.nextUrl;
                   resolve(results);
                 });
+                
+              //for the example
+              resolve([
+                { id: 1, src: "https://picsum.photos/200/300", name: "image1" },
+                { id: 2, src: "https://picsum.photos/200/200", name: "image2" },
+                { id: 3, src: "https://picsum.photos/300/300", name: "image3" },
+                { id: 4, src: "https://picsum.photos/300/400", name: "image4" },
+                { id: 5, src: "https://picsum.photos/400/300", name: "image5" },
+                { id: 6, src: "https://picsum.photos/400/400", name: "image6" },
+                { id: 7, src: "https://picsum.photos/500/300", name: "image7" },
+                { id: 8, src: "https://picsum.photos/500/400", name: "image8" },
+                { id: 9, src: "https://picsum.photos/600/300", name: "image9" },
+                {
+                  id: 10,
+                  src: "https://picsum.photos/600/400",
+                  name: "image10",
+                },
+              ]);
             }
           );
           manager.on("lazy-load-files-on-scroll", ({ resolve }) => {
@@ -130,25 +158,13 @@ const mediaGalleryManager = ({ endpoint, access }) => {
             }
           });
           manager.render();
-        });
-    };
-  };
-
+        };
+      };
 
       window.addEventListener("load", () => {
         const start = () => {
           const config = {
-            width: "750px",
-            onSave: (data) => {
-              const json = data.toJson();
-              // save the json to the server
-            },
             target: document.getElementById("root"),
-            theme: {
-              primaryColor: "#000",
-              topNavbar:
-                "linear-gradient(to right top, #051937, #00293b, #113537, #303f38, #474944);",
-            },
             // load here the media gallery manager
             mediaGalleryManager: mediaGalleryManager({
               // the endpoint and access token are required
@@ -163,7 +179,7 @@ const mediaGalleryManager = ({ endpoint, access }) => {
           new cdtrStarter(config);
         };
 
-        start()
+        start();
       });
     </script>
   </body>
