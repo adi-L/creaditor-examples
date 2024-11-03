@@ -1,0 +1,75 @@
+<!-- Load the Creaditor bundle JavaScript file from an external CDN with defer attribute -->
+<script
+  defer="defer" 
+  src="https://comstarsystemsltd.github.io/creaditor-monorepo/creaditor.bundle.js"
+></script>
+
+<!-- This div will serve as the main container for our editor content -->
+<div id="root"></div>  <!-- The 'root' div will be the mounting point for the editor -->
+
+<script>
+  const STORGAGE_KEY = "customBlocks";  // Key used to store custom blocks in localStorage
+
+  // Wait until the entire page, including external resources, has loaded before running the code
+  window.addEventListener("load", () => {
+    // Define the categories of blocks that will be available in the editor
+    const blocksCategories = [
+      {
+        name: "My Blocks", // The name of this block category
+        icon: "text", // Placeholder for an icon; feature not yet available
+      },
+      {
+        name: "Primum Blocks", // Another category of blocks
+        icon: "button", // Placeholder for an icon; feature not yet available
+      },
+    ];
+
+    // Initialize an array to store custom blocks created by the user
+    let customBlocks = [];  // Array to hold custom blocks
+
+    // Retrieve any existing blocks from localStorage
+    const blocksFromSession = localStorage.getItem(STORGAGE_KEY);
+
+    // If there are blocks saved in localStorage, parse and store them in customBlocks
+    if (blocksFromSession) {
+      customBlocks = JSON.parse(blocksFromSession);
+    }
+
+    // Configuration object for initializing the editor
+    const config = {
+      // Callback function triggered when a block is saved
+      onSaveBlock: ({ block, category, name, image }) => {
+        console.log("block saved", block, category, name); // Log block information for debugging
+
+        // IMPORTANT: The image is in base64 format, so it needs to be uploaded to a server
+
+        // Create a new block object with the provided parameters
+        const newBlock = {
+          name, // Name of the custom block
+          id: Date.now(), // Unique ID to identify the block (using current timestamp)
+          icon: image, // Base64 image icon representing the block (should be uploaded to a server)
+          group: category.name, // Category the block belongs to
+          children: block, // Actual block content
+        };
+
+        // Add the new block to the customBlocks array
+        customBlocks.push(newBlock);
+        // Save the updated customBlocks array to localStorage
+        localStorage.setItem(STORGAGE_KEY, JSON.stringify(customBlocks));
+      },
+
+      // Function that returns the categories of blocks defined above
+      blocksCategories: () => {
+        return blocksCategories;  // Return the defined block categories
+      },
+
+      // Function that returns the array of custom blocks saved by the user
+      customBlocks: () => {
+        return customBlocks;  // Return the array of custom blocks
+      },
+    };
+
+    // Initialize the editor using the cdtrStarter function with the defined configuration
+    new cdtrStarter(config);  // Create a new instance of the editor with the configuration
+  });
+</script>
