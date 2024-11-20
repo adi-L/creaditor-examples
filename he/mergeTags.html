@@ -5,17 +5,6 @@
 <div id="root"></div>
 <script>
   window.addEventListener("load", () => {
-    const textConfigure = {
-      mergeTags: [
-        { value: "name", label: "שם פרטי" },
-        { value: "email", label: "מייל" },
-        { value: "tel", label: "טלפון" },
-        { value: "address", label: "כתובת" },
-      ],
-      prefix: "[[*",
-      suffix: "*]]",
-      title: "פנייה אישית",
-    };
     const config = {
         mergeTags: {
               items: [
@@ -26,13 +15,13 @@
                 {
                   label: "קישורים שמורים",
                   children: [
-                    { value: "facebook", label: "fc" },
-                    { value: "intagram", label: "in" },
+                    { value: "facebook", label: "facebook" },
+                    { value: "intagram", label: "intagram" },
                     {
                       label: "קישורים חיצוניים",
                       children: [
-                        { value: "my website", label: "home" },
-                        { value: "my email", label: "dor@gmail.com" },
+                        { value: "website:home", label: "my website" },
+                        { value: "email:0", label: "my email" },
                       ],
                     },
                   ],
