@@ -16,9 +16,33 @@
       suffix: "*]]",
       title: "פנייה אישית",
     };
-    const config = { 
-        textConfigure
-     };
+    const config = {
+        mergeTags: {
+              items: [
+                { value: "name", label: "שם פרטי" },
+                { value: "email", label: "מייל" },
+                { value: "tel", label: "טלפון" },
+                { value: "address", label: "כתובת" },
+                {
+                  label: "קישורים שמורים",
+                  children: [
+                    { value: "facebook", label: "fc" },
+                    { value: "intagram", label: "in" },
+                    {
+                      label: "קישורים חיצוניים",
+                      children: [
+                        { value: "my website", label: "home" },
+                        { value: "my email", label: "dor@gmail.com" },
+                      ],
+                    },
+                  ],
+                },
+              ],
+              prefix: "[[---*",
+              suffix: "*---]]",
+              title: "פנייה אישית",
+            },
+    };
     new cdtrStarter(config);
   });
 </script>
