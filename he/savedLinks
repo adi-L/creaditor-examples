@@ -1,0 +1,27 @@
+<script
+  defer="defer"
+  src="https://comstarsystemsltd.github.io/creaditor-monorepo/creaditor.bundle.js"
+></script>
+<div id="root"></div>
+<script>
+  window.addEventListener("load", () => {
+    const config = {
+      linkPicker: {
+        savedVariables: [
+          { value: "name", label: "שם" },
+          { value: "email", label: "מייל" },
+          { value: "tel", label: "טלפון" },
+          { value: "address", label: "כתובת" },
+          {
+            label: "קישורים נוספים",
+            children: [
+              { value: "facebook", label: "פייסבוק" },
+              { value: "instagram", label: "אינסטגרם" },
+            ],
+          },
+        ],
+      },
+    };
+    new cdtrStarter(config);
+  });
+</script>
