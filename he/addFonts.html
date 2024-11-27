@@ -1,0 +1,28 @@
+<script
+  defer="defer"
+  src="https://comstarsystemsltd.github.io/creaditor-monorepo/creaditor.bundle.js"
+></script>
+<div id="root"></div>
+<script>
+  window.addEventListener("load", () => {
+    const config = {
+      fonts: [
+        {
+          id: "Arial",
+          cssRule: "Arial, Helvetica, sans-serif",
+          name: "Arial",
+          language: ["en", "he"],
+          url: null,
+        },
+        {
+          id: "Times New Roman",
+          cssRule: "Times New Roman, Times, Beskerville, Georgia, serif",
+          name: "Times New Roman",
+          language: ["en", "he"],
+          url: null,
+        },
+      ],
+    };
+    new cdtrStarter(config);
+  });
+</script>
