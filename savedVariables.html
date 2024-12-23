@@ -1,0 +1,27 @@
+<script
+  defer="defer"
+  src="https://api.creaditor.ai/static/unstable/creaditor.bundle.js?v=638705365597635679"
+></script>
+<div id="root"></div>
+<script>
+  window.addEventListener("load", () => {
+    const config = {
+        linkPicker: {
+            savedVariables: [
+              { value: "name", label: "שם" },
+              { value: "email", label: "מייל" },
+              { value: "tel", label: "טלפון" },
+              { value: "address", label: "כתובת" },
+              {
+                label: "קישורים שמורים",
+                children: [
+                  { value: "{{facebook}}", label: "פייסבוק" },
+                  { value: "foo:instagram", label: "אינסטגרם" },
+                ],
+              },
+            ],
+          },
+    };
+    new cdtrStarter(config);
+  });
+</script>
