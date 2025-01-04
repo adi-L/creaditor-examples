@@ -37,27 +37,44 @@
 
     // Configuration object for initializing the editor
     const config = {
-      // Callback function triggered when a block is saved
-      onSaveBlock: ({ block, category, name, image }) => {
-        console.log("block saved", block, category, name); // Log block information for debugging
-
-        // IMPORTANT: The image is in base64 format, so it needs to be uploaded to a server
-
-        // Create a new block object with the provided parameters
-        const newBlock = {
-          name, // Name of the custom block
-          id: Date.now(), // Unique ID to identify the block (using current timestamp)
-          icon: image, // Base64 image icon representing the block (should be uploaded to a server)
-          group: category.name, // Category the block belongs to
-          children: block, // Actual block content
-        };
+        onDeleteBlock(block) {
+          const comfirm = window.confirm("Are you sure you want to delete?");
+          if (comfirm) {
+            const index = customBlocks.findIndex((c) => c._id === block._id);
+            if (index > -1) {
+              customBlocks.splice(index, 1);
+              window.snackbar({
+                text: "Block deleted",
+              });
+              return true;
+            }
+          }
+        },
+        onSaveBlock: ({ block, group, name, image, _id }) => {
+          const existsBlock = customBlocks.find((c) => c._id === _id);
+          if (existsBlock) {
+            existsBlock.name = name;
+            existsBlock.group = group.name;
+          } else {
+            customBlocks.push({
+              _id: Date.now(),
+              name,
+              icon: image,
+              group: group.name,
+              children: block,
+              isDeletable: true,
+              isEditable: true,
+            });
 
         // Add the new block to the customBlocks array
         customBlocks.push(newBlock);
         // Save the updated customBlocks array to localStorage
         localStorage.setItem(STORGAGE_KEY, JSON.stringify(customBlocks));
-      },
-
+          }
+          
+        },
+      // Callback function triggered when a block is saved
+  
       // Function that returns the categories of blocks defined above
       blocksCategories: () => {
         return blocksCategories;  // Return the defined block categories
