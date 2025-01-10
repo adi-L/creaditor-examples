@@ -4,24 +4,22 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Creaditor | 👩‍💻</title>
-    <script
-      defer="defer"
-      src="https://comstarsystemsltd.github.io/creaditor-monorepo/creaditor.bundle.js"
-    ></script>
+    <script defer="defer" src="https://comstarsystemsltd.github.io/creaditor-monorepo/creaditor.bundle.js"></script>
   </head>
   <body>
     <div id="root"></div>
     <script>
-      window.addEventListener("load", () => {
+      window.addEventListener('load', () => {
         const config = {
-          width: "750px",
+          width: '750px',
           onSave: (data) => {
             const json = data.toJson();
             // save the json to the server
           },
           theme: {
-            primaryColor: "#000",
-          components: [], // components load here
+            primaryColor: '#000',
+            components: [], // components load here
+          },
         };
         new cdtrStarter(config);
       });
