@@ -1,27 +1,101 @@
 <script
   defer="defer"
-  src="https://comstarsystemsltd.github.io/creaditor-monorepo/creaditor.bundle.js"
+  src="https://api.creaditor.ai/static/cdn/newsletter-test-mode/creaditor.bundle.js"
 ></script>
 <div id="root"></div>
 <script>
+  const fonts = [
+    {
+      id: "Arial",
+      cssRule: "Arial, Helvetica, sans-serif",
+      name: "Arial",
+      language: ["en", "he"],
+      url: null,
+    },
+    {
+      id: "Times New Roman",
+      cssRule: "Times New Roman, Times, Beskerville, Georgia, serif",
+      name: "Times New Roman",
+      language: ["en", "he"],
+      url: null,
+    },
+    {
+      id: "Courier New",
+      cssRule: "Courier New, Courier, monospace",
+      name: "Courier New",
+    },
+    {
+      id: "Tahoma",
+      cssRule: "Tahoma, Geneva, sans-serif",
+      name: "Tahoma",
+    },
+    {
+      id: "Verdana",
+      cssRule: "Verdana, Geneva, sans-serif",
+      name: "Verdana",
+    },
+    {
+      id: "Roboto",
+      cssRule: "Roboto, sans-serif",
+      name: "Roboto (google)",
+      url: "https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap",
+    },
+    {
+      id: "Karantina",
+      cssRule: "Karantina, Rubic, sans-serif",
+      name: "Karantina",
+      language: ["en", "he"],
+      url: "https://fonts.googleapis.com/css2?family=Karantina:wght@300;400;700&display=swap",
+    },
+    {
+      id: "Rubic",
+      cssRule: "Rubic, Karantina, sans-serif",
+      name: "Rubic",
+      language: ["en", "he"],
+      url: "https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap",
+    },
+    {
+      id: "Fredoka",
+      cssRule: "Fredoka, sans-serif",
+      name: "Fredoka",
+      language: ["en", "he"],
+      url: "https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap",
+    },
+    {
+      id: "Assistant",
+      cssRule: "Assistant, sans-serif",
+      name: "Assistant",
+      language: ["en", "he"],
+      url: "https://fonts.googleapis.com/css2?family=Assistant:wght@200..800&display=swap",
+    },
+    {
+      id: "M+PLUS+Rounded+1c",
+      cssRule: "M+PLUS+Rounded+1c, sans-serif",
+      name: "M+PLUS+Rounded+1c",
+      language: ["en", "he"],
+      url: "https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c&display=swap",
+    },
+    {
+      id: "Amatic+SC",
+      cssRule: "Amatic+SC, sans-serif",
+      name: "Amatic+SC",
+      language: ["en", "he"],
+      url: "https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&display=swap",
+    },
+  ];
   window.addEventListener("load", () => {
+    const localSotargeKey = "creaditor-fonts-example";
+
+    const fromStorage = localStorage.getItem(localSotargeKey);
+
     const config = {
-      fonts: [
-        {
-          id: "Arial",
-          cssRule: "Arial, Helvetica, sans-serif",
-          name: "Arial",
-          language: ["en", "he"],
-          url: null,
-        },
-        {
-          id: "Times New Roman",
-          cssRule: "Times New Roman, Times, Beskerville, Georgia, serif",
-          name: "Times New Roman",
-          language: ["en", "he"],
-          url: null,
-        },
-      ],
+      components: fromStorage ? JSON.parse(fromStorage) : null,
+      onSave: ({ toJson }) => {
+        const toString = JSON.stringify(toJson());
+        localStorage.setItem(localSotargeKey, toString);
+      },
+
+      fonts,
     };
     new cdtrStarter(config);
   });
