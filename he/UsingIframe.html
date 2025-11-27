@@ -31,7 +31,7 @@
   iframe.contentWindow.document.head.appendChild(script);
 
   // Add an event listener to execute code once the script has fully loaded
-  script.addEventListener("load", () => {
+  script.addEventListener("DOMContentLoaded", () => {
     // Define the configuration object for the Creaditor editor
     const config = {
       width: "750px", // Set a fixed width for the editor component
