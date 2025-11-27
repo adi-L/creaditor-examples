@@ -11,7 +11,7 @@
   const STORGAGE_KEY = "customBlocks";  // Key used to store custom blocks in localStorage
 
   // Wait until the entire page, including external resources, has loaded before running the code
-  window.addEventListener("load", () => {
+  window.addEventListener("DOMContentLoaded", () => {
     // Define the categories of blocks that will be available in the editor
     const blocksCategories = [
       {
